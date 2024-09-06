@@ -44,9 +44,13 @@ ENV PROJ_PYTHONPATH=/.venv/lib/python${PY_VER_MAJOR}/site-packages
 # Pull dependencies cached from previous layer
 
 # Needed for cron job build
-RUN apt-get update && apt-get install -y --no-install-recommends wget
+# RUN apt-get update && apt-get install -y --no-install-recommends wget
 
+COPY --from=builder /usr/lib/x86_64-linux-gnu/libpsl.so.5 /usr/lib/x86_64-linux-gnu/libpsl.so.5
+COPY --from=builder /usr/bin/wget /usr/bin/wget
 COPY --from=builder ${PROJ_PYTHONPATH} ${PROJ_PYTHONPATH}
 COPY --from=builder "${PY_ROOT_MODULE}" ${PY_ROOT_MODULE}/
 
 ENV PYTHONPATH=${PROJ_PYTHONPATH}${PYTHONPATH:+":$PYTHONPATH"}
+
+# du -h --max-depth=1  . | sort -rh
