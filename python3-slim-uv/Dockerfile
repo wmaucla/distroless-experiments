@@ -53,4 +53,6 @@ COPY --from=builder "${PY_ROOT_MODULE}" ${PY_ROOT_MODULE}/
 
 ENV PYTHONPATH=${PROJ_PYTHONPATH}${PYTHONPATH:+":$PYTHONPATH"}
 
+COPY model.onnx . 
+COPY preprocessing_pipeline.onnx .
 # du -h --max-depth=1  . | sort -rh
